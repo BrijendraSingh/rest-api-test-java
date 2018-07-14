@@ -3,7 +3,7 @@ package utilities;
 import java.io.*;
 import java.util.Properties;
 
-public class AppUtilities {
+public class AppConfig {
 
     private static String CONFIG_FILE = "config.properties";
 
@@ -15,7 +15,7 @@ public class AppUtilities {
         return properties.getProperty(propName);
     }
 
-    public File getPropertiesFile() throws FileNotFoundException{
+    public File getPropertiesFile() throws FileNotFoundException, IOException{
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource(CONFIG_FILE).getFile());
 
