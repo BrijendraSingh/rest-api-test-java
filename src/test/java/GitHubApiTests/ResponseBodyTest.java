@@ -55,7 +55,7 @@ public class ResponseBodyTest {
         Response response = given()
                 .pathParam("userName", USER_NAME).
                         when()
-                .get("users/{userName}/repos").
+                .request("GET", "users/{userName}/repos").
                         then()
                 .extract()
                 .response();
@@ -67,6 +67,9 @@ public class ResponseBodyTest {
                 return hasItems(expectedItem.entrySet().toArray()).matches(o.entrySet());
             }
         }));
+
+//        JsonPath jsonPath = new JsonPath(response.asString()).setRoot(".");
+//        System.out.println(jsonPath);
     }
 
     @Test
