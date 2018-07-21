@@ -3,6 +3,7 @@ package GitHubApiTests;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import org.hamcrest.CustomTypeSafeMatcher;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
@@ -13,9 +14,11 @@ import utilities.AppConfig;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.path.json.JsonPath.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -44,19 +47,26 @@ public class ResponseBodyTest {
                 .body("id", equalTo(9004987));
     }
 
-    @Ignore
     @Test
     public void shouldContainProjectNameInReposEndpoint(){
         Map<String, Object> expectedItem = new HashMap<>();
         expectedItem.put("name", "rest-api-test-java");
 
-        given()
+        Response response = given()
                 .pathParam("userName", USER_NAME).
-        when()
+                        when()
                 .get("users/{userName}/repos").
-        then()
-                .assertThat()
-                .body("$", Matchers.hasItemInArray(expectedItem));
+                        then()
+                .extract()
+                .response();
+
+        List<Map<String, String>> repoDetails = from(response.asString()).getList(".");
+        assertThat(repoDetails, hasItem(new CustomTypeSafeMatcher<Map<String,String>>("an entrySet that contains " + expectedItem.entrySet()) {
+            @Override
+            protected boolean matchesSafely(Map<String, String> o) {
+                return hasItems(expectedItem.entrySet().toArray()).matches(o.entrySet());
+            }
+        }));
     }
 
     @Test
