@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.is;
 
 public class CreateAndUpdateResouceTest {
     private static String USER_NAME = "";
-    private static String ACCESS_TOKEN = "token eb05958b396ba12be0f34d3df93d6cd972138a0f";
+    private static String ACCESS_TOKEN = "";
 
     @Before
     public void setUp() throws IOException {
