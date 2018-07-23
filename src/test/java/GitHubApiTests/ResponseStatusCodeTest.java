@@ -7,8 +7,10 @@ import org.junit.Test;
 import utilities.AppConfig;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.lessThan;
 
 public class ResponseStatusCodeTest {
 
@@ -30,4 +32,10 @@ public class ResponseStatusCodeTest {
     public void shouldReturn404WhenResourceNotFound(){
         when().get("/userz").then().statusCode(404);
     }
+
+    @Test
+    public void testResponseTimeOfUsersEndpointIsLessThan3000ms(){
+        when().get("/users").then().time(lessThan(3000L), TimeUnit.MILLISECONDS);
+    }
+
 }
