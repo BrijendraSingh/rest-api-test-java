@@ -25,17 +25,17 @@ public class ResponseStatusCodeTest {
 
     @Test
     public void shouldReturn200WhenResourceFound(){
-        assert false;
+        when().get("/users").then().statusCode(200);
     }
 
     @Test
     public void shouldReturn404WhenResourceNotFound(){
-        assert false;
+        when().get("/userz").then().statusCode(404);
     }
 
     @Test
     public void testResponseTimeOfUsersEndpointIsLessThan3000ms(){
-        assert false;
+        when().get("/users").then().time(lessThan(3000L), TimeUnit.MILLISECONDS);
     }
 
 }
